@@ -7,14 +7,14 @@ var bodyParser = require('body-parser');
 //using express to load customizes static files
 var express = require("express"),
     app = express(),
-    port = process.env.PORT || 8080,
-    router = express.Router();
+    port = process.env.PORT || 8080;
+    //router = express.Router();
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-router.use('/api', router);
+//router.use('/api', router);
 
 app.all("/api/*", function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -36,13 +36,17 @@ app.all("/api/*", function (req, res, next) {
 //   }
 // });
 
-router.get('/get', function (req, res) {
+app.get('/get', function (req, res) {
   res.send('done');
 });
 
-router.get('/', function (req, res) {
+app.get('/', function (req, res) {
   res.send('hello');
 });
 
-app.listen(port);
-console.log('Magic happens on port ' + port);
+var server = app.listen(port, function () {
+	var host = server.address().address
+	var port = server.address().port
+
+	console.log('Example app listening at http://%s:%s', host, port)
+});
